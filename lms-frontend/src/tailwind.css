@@ -1,0 +1,88 @@
+/* Tailwind CSS v4 Configuration */
+@import "tailwindcss";
+
+/* Theme configuration using CSS variables */
+@theme {
+  /* Custom Colors */
+  --color-primary-50: #e6f2ff;
+  --color-primary-100: #b3d9ff;
+  --color-primary-200: #80c0ff;
+  --color-primary-300: #4da7ff;
+  --color-primary-400: #1a8eff;
+  --color-primary-500: #0074e6;
+  --color-primary-600: #005bb3;
+  --color-primary-700: #004280;
+  --color-primary-800: #00294d;
+  --color-primary-900: #00101a;
+
+  --color-secondary-50: #e6f9f2;
+  --color-secondary-100: #b3ecd9;
+  --color-secondary-200: #80dfc0;
+  --color-secondary-300: #4dd2a7;
+  --color-secondary-400: #1ac58e;
+  --color-secondary-500: #00b874;
+  --color-secondary-600: #00905a;
+  --color-secondary-700: #006840;
+  --color-secondary-800: #004026;
+  --color-secondary-900: #00180c;
+
+  --color-accent-50: #e6f7f9;
+  --color-accent-100: #b3e7ed;
+  --color-accent-200: #80d7e1;
+  --color-accent-300: #4dc7d5;
+  --color-accent-400: #1ab7c9;
+  --color-accent-500: #00a7bd;
+  --color-accent-600: #008194;
+  --color-accent-700: #005b6b;
+  --color-accent-800: #003542;
+  --color-accent-900: #000f19;
+
+  --color-success: #22c55e;
+  --color-success-light: #4ade80;
+  --color-success-dark: #16a34a;
+
+  --color-warning: #f59e0b;
+  --color-warning-light: #fbbf24;
+  --color-warning-dark: #d97706;
+
+  --color-error: #ef4444;
+  --color-error-light: #f87171;
+  --color-error-dark: #dc2626;
+
+  --color-info: #3b82f6;
+  --color-info-light: #60a5fa;
+  --color-info-dark: #2563eb;
+
+  /* Custom Shadows */
+  --shadow-soft: 0 2px 10px 0 rgba(0, 0, 0, 0.05);
+  --shadow-medium: 0 4px 20px 0 rgba(0, 0, 0, 0.08);
+  --shadow-hard: 0 10px 40px 0 rgba(0, 0, 0, 0.15);
+  --shadow-primary: 0 4px 14px 0 rgba(0, 116, 230, 0.3);
+  --shadow-secondary: 0 4px 14px 0 rgba(0, 184, 116, 0.3);
+
+  /* Custom Animations */
+  --animate-fade-in: fadeIn 0.3s ease-in-out;
+  --animate-slide-up: slideUp 0.3s ease-out;
+  --animate-slide-down: slideDown 0.3s ease-out;
+  --animate-scale-in: scaleIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes slideUp {
+  0% { transform: translateY(10px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideDown {
+  0% { transform: translateY(-10px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes scaleIn {
+  0% { transform: scale(0.95); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}

@@ -1,0 +1,49 @@
+# Development Docker Compose Override
+# Use with: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+
+version: '3.8'
+
+services:
+  # Backend development configuration
+  backend:
+    build:
+      context: ./lms-backend
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./lms-backend/src:/app/src
+      - ./lms-backend/prisma:/app/prisma
+      - backend_node_modules:/app/node_modules
+    environment:
+      NODE_ENV: development
+      LOG_LEVEL: debug
+    command: npm run dev
+
+  # Frontend development configuration
+  frontend:
+    build:
+      context: ./lms-frontend
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./lms-frontend/src:/app/src
+      - ./lms-frontend/public:/app/public
+      - frontend_node_modules:/app/node_modules
+    environment:
+      NODE_ENV: development
+    ports:
+      - "3000:3000"
+    command: npm run dev
+
+  # Enable development tools
+  adminer:
+    profiles:
+      - ""
+
+  redis-commander:
+    profiles:
+      - ""
+
+volumes:
+  backend_node_modules:
+    driver: local
+  frontend_node_modules:
+    driver: local
