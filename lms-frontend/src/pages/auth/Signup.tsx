@@ -61,11 +61,11 @@ const Signup: React.FC = () => {
       };
 
       await authRegister(formattedData);
-    } catch (err: any) {
+    } catch (err) {
       // Handle validation errors from backend
       if (err.response?.data?.error?.details && Array.isArray(err.response.data.error.details)) {
         const validationErrors = err.response.data.error.details;
-        const errorMessages = validationErrors.map((e: any) => `${e.field}: ${e.message}`).join('\n');
+        const errorMessages = validationErrors.map((e) => `${e.field}: ${e.message}`).join('\n');
         setError(errorMessages);
       } else {
         setError(err.message || 'Registration failed. Please try again.');

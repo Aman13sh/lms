@@ -32,7 +32,7 @@ const LoanApplications: React.FC = () => {
       setError(null);
       const data = await loanApplicationService.getApplications();
       setApplications(data);
-    } catch (err: any) {
+    } catch (err) {
       console.error('Error fetching applications:', err);
       setError(err.response?.data?.error || 'Failed to fetch applications');
     } finally {

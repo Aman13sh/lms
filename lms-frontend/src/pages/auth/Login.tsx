@@ -41,7 +41,7 @@ const Login: React.FC = () => {
     try {
       await login(data.email, data.password);
       // Login successful, navigation will be handled by AuthContext
-    } catch (err: any) {
+    } catch (err) {
       console.error('Login error:', err);
       setError(err.message || 'Login failed. Please try again.');
       setLoading(false);

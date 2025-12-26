@@ -31,7 +31,7 @@ const CustomerDashboard: React.FC = () => {
       ]);
       setStats(statsData);
       setApplications(applicationsData.slice(0, 3)); // Show only recent 3 applications
-    } catch (err: any) {
+    } catch (err) {
       console.error('Error fetching dashboard data:', err);
       setError(err.response?.data?.error || 'Failed to fetch dashboard data');
     } finally {
