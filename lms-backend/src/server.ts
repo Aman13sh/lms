@@ -142,6 +142,20 @@ class Server {
 const server = new Server();
 server.start();
 
+// Handle unhandled promise rejections
+process.on('unhandledRejection', (err: Error) => {
+  logger.error('UNHANDLED REJECTION! Shutting down...', err);
+  console.error('UNHANDLED REJECTION:', err);
+  process.exit(1);
+});
+
+// Handle uncaught exceptions
+process.on('uncaughtException', (err: Error) => {
+  logger.error('UNCAUGHT EXCEPTION! Shutting down...', err);
+  console.error('UNCAUGHT EXCEPTION:', err);
+  process.exit(1);
+});
+
 // Handle graceful shutdown
 process.on('SIGINT', async () => {
   logger.info('SIGINT signal received: closing server');
