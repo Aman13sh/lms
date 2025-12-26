@@ -22,6 +22,7 @@ import Signup from './pages/auth/Signup';
 import Dashboard from './pages/Dashboard';
 import LoanProducts from './pages/LoanProducts';
 import LoanApplications from './pages/LoanApplications';
+import LoanApplicationDetails from './pages/LoanApplicationDetails';
 import NewApplication from './pages/NewApplication';
 import OngoingLoans from './pages/OngoingLoans';
 import CollateralManagement from './pages/CollateralManagement';
@@ -84,6 +85,7 @@ function AppRoutes() {
           <Route path="loan-products" element={<LoanProducts />} />
           <Route path="loan-applications" element={<LoanApplications />} />
           <Route path="loan-applications/new" element={<NewApplication />} />
+          <Route path="loan-applications/:id" element={<LoanApplicationDetails />} />
           <Route path="ongoing-loans" element={<OngoingLoans />} />
           <Route path="collateral" element={<CollateralManagement />} />
         </Route>
