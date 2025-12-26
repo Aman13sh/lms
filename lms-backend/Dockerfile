@@ -4,25 +4,19 @@ FROM node:20-alpine
 # Set working directory
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copy everything first
+COPY . .
 
-# Install all dependencies (including dev for building)
+# Install all dependencies
 RUN npm ci
-
-# Copy prisma schema
-COPY prisma ./prisma
 
 # Generate Prisma client
 RUN npx prisma generate
 
-# Copy all source files
-COPY . .
-
 # Build TypeScript
 RUN npm run build
 
-# Remove dev dependencies
+# Clean up dev dependencies
 RUN npm prune --production
 
 # Expose port
