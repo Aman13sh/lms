@@ -2,7 +2,7 @@
 // Authentication context for managing user state
 
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import axios from 'axios';
+import axios from '../utils/axiosConfig';
 import type { ReactNode } from 'react';
 import Cookies from 'js-cookie';
 
@@ -102,7 +102,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // Login function
   const login = async (email: string, password: string) => {
     try {
-      const response = await axios.post('http://localhost:5001/api/auth/login', {
+      const response = await axios.post('/api/auth/login', {
         email,
         password,
       });
@@ -173,7 +173,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // Register function
   const register = async (data: any) => {
     try {
-      const response = await axios.post('http://localhost:5001/api/auth/register', data);
+      const response = await axios.post('/api/auth/register', data);
 
       if (response.data.success) {
         const { tokens, user: userData, customer: customerData } = response.data.data;
