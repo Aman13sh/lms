@@ -1,78 +1,32 @@
-# Backend Dockerfile
-# Multi-stage build for production-ready Node.js application
-
-# Stage 1: Build stage
-FROM node:20-alpine AS builder
+# Production Dockerfile for Node.js Backend
+FROM node:20-alpine
 
 # Set working directory
 WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
-COPY tsconfig.json ./
 
-# Install dependencies
+# Install all dependencies (including dev for building)
 RUN npm ci
 
-# Copy Prisma schema
+# Copy prisma schema
 COPY prisma ./prisma
 
 # Generate Prisma client
 RUN npx prisma generate
 
-# Copy source code
-COPY src ./src
+# Copy all source files
+COPY . .
 
 # Build TypeScript
 RUN npm run build
 
-# Stage 2: Production stage
-FROM node:20-alpine
-
-# Install dumb-init for proper signal handling
-RUN apk add --no-cache dumb-init
-
-# Create non-root user
-RUN addgroup -g 1001 -S nodejs && \
-    adduser -S nodejs -u 1001
-
-# Set working directory
-WORKDIR /app
-
-# Copy package files
-COPY package*.json ./
-
-# Install production dependencies only
-RUN npm ci --only=production && \
-    npm cache clean --force
-
-# Copy Prisma schema and generated client from builder
-COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
-COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
-COPY prisma ./prisma
-
-# Copy built application from builder
-COPY --from=builder /app/dist ./dist
-
-# Copy other necessary files
-COPY .env.example ./.env.example
-
-# Create logs directory
-RUN mkdir -p logs && \
-    chown -R nodejs:nodejs /app
-
-# Switch to non-root user
-USER nodejs
+# Remove dev dependencies
+RUN npm prune --production
 
 # Expose port
-EXPOSE 5000
+EXPOSE 5001
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:5000/api/health', (r) => {if (r.statusCode !== 200) throw new Error()})" || exit 1
-
-# Use dumb-init to handle signals properly
-ENTRYPOINT ["dumb-init", "--"]
-
-# Run the application
+# Start the application
 CMD ["node", "dist/server.js"]

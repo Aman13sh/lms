@@ -124,7 +124,6 @@ class Server {
       this.app.listen(this.port, () => {
         logger.info(`🚀 Server is running on port ${this.port}`);
         logger.info(`📱 Environment: ${process.env.NODE_ENV}`);
-        logger.info(`🌐 Frontend URL: ${process.env.FRONTEND_URL}`);
       });
     } catch (error) {
       console.error('❌ Failed to start server:', error);

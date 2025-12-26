@@ -5,7 +5,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 // Set base URL for all axios requests
-axios.defaults.baseURL = 'http://localhost:5001';
+axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 axios.defaults.withCredentials = true; // Important: Send cookies with requests
 
 // Request interceptor to add token to headers
