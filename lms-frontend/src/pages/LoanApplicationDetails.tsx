@@ -64,7 +64,12 @@ const LoanApplicationDetails: React.FC = () => {
       setApplication(response.data.data);
     } catch (err) {
       console.error('Error fetching application details:', err);
-      setError(err.response?.data?.error || 'Failed to fetch application details');
+      const errorData = err.response?.data?.error;
+      // Handle both string and object error formats
+      const errorMessage = typeof errorData === 'string'
+        ? errorData
+        : errorData?.message || 'Failed to fetch application details';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -83,7 +88,11 @@ const LoanApplicationDetails: React.FC = () => {
       await fetchApplicationDetails(); // Refresh the data
     } catch (err) {
       console.error('Error approving application:', err);
-      setError(err.response?.data?.error || 'Failed to approve application');
+      const errorData = err.response?.data?.error;
+      const errorMessage = typeof errorData === 'string'
+        ? errorData
+        : errorData?.message || 'Failed to approve application';
+      setError(errorMessage);
     } finally {
       setProcessing(false);
     }
@@ -106,7 +115,11 @@ const LoanApplicationDetails: React.FC = () => {
       await fetchApplicationDetails(); // Refresh the data
     } catch (err) {
       console.error('Error rejecting application:', err);
-      setError(err.response?.data?.error || 'Failed to reject application');
+      const errorData = err.response?.data?.error;
+      const errorMessage = typeof errorData === 'string'
+        ? errorData
+        : errorData?.message || 'Failed to reject application';
+      setError(errorMessage);
     } finally {
       setProcessing(false);
     }

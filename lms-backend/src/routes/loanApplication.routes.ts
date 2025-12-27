@@ -4,6 +4,7 @@
 import { Router } from 'express';
 import {
   getLoanApplications,
+  getLoanApplicationById,
   createLoanApplication,
   updateApplicationStatus,
   getDashboardStats,
@@ -20,6 +21,9 @@ router.get('/dashboard/stats', getDashboardStats);
 
 // Get all applications (filtered by role)
 router.get('/', getLoanApplications);
+
+// Get single application by ID
+router.get('/:id', getLoanApplicationById);
 
 // Create new application (customers only)
 router.post('/', createLoanApplication);

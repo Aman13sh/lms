@@ -196,6 +196,84 @@ export const updateApplicationStatus = async (req: Request, res: Response) => {
   }
 };
 
+// Get a single loan application by ID
+export const getLoanApplicationById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user?.id;
+    const role = req.user?.role;
+
+    const application = await prisma.loanApplication.findUnique({
+      where: { id },
+      include: {
+        loanProduct: true,
+        customer: {
+          include: {
+            user: true,
+          },
+        },
+      },
+    });
+
+    if (!application) {
+      return res.status(404).json({ error: 'Loan application not found' });
+    }
+
+    // If customer, verify they own this application
+    if (role === 'CUSTOMER') {
+      const customer = await prisma.customer.findUnique({
+        where: { userId },
+      });
+
+      if (!customer || application.customerId !== customer.id) {
+        return res.status(403).json({ error: 'Unauthorized to view this application' });
+      }
+    }
+
+    // Get application data (stored as JSON)
+    const applicationData = application.applicationData as Record<string, unknown> || {};
+
+    // Format the response to match frontend expectations
+    const formattedApplication = {
+      id: application.id,
+      applicationNumber: application.applicationNumber,
+      status: application.status,
+      requestedAmount: application.requestedAmount,
+      tenure: application.tenureMonths,
+      purpose: applicationData.purposeOfLoan || application.purposeOfLoan || 'Not specified',
+      employmentType: applicationData.employmentType || 'Not specified',
+      monthlyIncome: applicationData.monthlyIncome || 0,
+      existingEMI: applicationData.existingEMI || 0,
+      submittedDate: application.createdAt,
+      customer: {
+        firstName: application.customer.firstName,
+        lastName: application.customer.lastName,
+        email: application.customer.user.email,
+        phone: application.customer.phoneNumber || 'Not provided',
+        pan: application.customer.panNumber || 'Not provided',
+        aadhaar: application.customer.aadhaarNumber || 'Not provided',
+      },
+      loanProduct: {
+        name: application.loanProduct.productName,
+        interestRate: application.loanProduct.interestRate.toNumber(),
+        processingFee: application.loanProduct.processingFeePercentage?.toNumber() || 0,
+        minAmount: application.loanProduct.minAmount.toNumber(),
+        maxAmount: application.loanProduct.maxAmount.toNumber(),
+      },
+      reviewNotes: application.rejectionReason,
+      rejectionReason: application.rejectionReason,
+    };
+
+    res.json({
+      success: true,
+      data: formattedApplication,
+    });
+  } catch (error) {
+    console.error('Error fetching loan application details:', error);
+    res.status(500).json({ error: 'Failed to fetch loan application details' });
+  }
+};
+
 // Get dashboard statistics
 export const getDashboardStats = async (req: Request, res: Response) => {
   try {
