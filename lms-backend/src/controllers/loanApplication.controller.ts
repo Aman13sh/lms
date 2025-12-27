@@ -132,7 +132,7 @@ export const createLoanApplication = async (req: Request, res: Response) => {
         tenureMonths: tenure,
         interestRate: loanProduct.interestRate,
         purposeOfLoan,
-        status: 'DRAFT',
+        status: 'SUBMITTED',
         applicationData: {
           purposeOfLoan,
           monthlyIncome,
