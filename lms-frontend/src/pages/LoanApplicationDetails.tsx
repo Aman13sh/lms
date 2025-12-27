@@ -198,14 +198,14 @@ const LoanApplicationDetails: React.FC = () => {
             </div>
             <div className="flex gap-3">
               <Button
-                variant="success"
+                variant="secondary"
                 onClick={handleApprove}
                 disabled={processing}
               >
                 {processing ? 'Processing...' : 'Approve Application'}
               </Button>
               <Button
-                variant="error"
+                variant="danger"
                 onClick={() => setShowRejectModal(true)}
                 disabled={processing}
               >
@@ -349,7 +349,7 @@ const LoanApplicationDetails: React.FC = () => {
                 Cancel
               </Button>
               <Button
-                variant="error"
+                variant="danger"
                 onClick={handleReject}
                 disabled={processing || !rejectionReason.trim()}
               >
